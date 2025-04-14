@@ -30,7 +30,25 @@ public:
         if(i>=n){
             if(j>=m) return true;
 
-            return false;
+            while(j<m){    // what are we doing here? -> If i reaches it's end but j is still stuck on an idx, does that mean not match, not really,
+                          // what if s="a" and p="ab*" then ? first character matches and then i is at end, but j still either on a or on *, not really at end...
+                         // but j is on star, which can either repeat 0 or more times and if we repeat it 0 times,wallah...p matches with s. That's why we are checking
+                        // from the current position of j, whether the curr character is '*' or if no then if the next character is '*', and if both the condn, are false
+                       // then obviously there is a character left which will make p!=s, so return false. See we are not check p with s here but with itself because s is
+                      // already checked, we are at the base case right...Hope so cleared.
+
+                if(p[j]!='*'){
+                    if(j+1>=m) return false;
+
+                    else if(j+1<m && p[j+1]!='*') return false;
+                }
+
+                
+
+                j++;
+            }
+
+            return true;
         }
 
         if(dp[i][j]!=-1) return dp[i][j];
