@@ -87,7 +87,7 @@ public:
 
         ll res = 1;
         for(int i = 1; i <= k; i++){
-            res = res * (n - i + 1) / i;
+            res = res * (n - i + 1) / i; // whenever you are multiplying a factor having division factor with it, it's better to write full res*=(n-i+1)/i ❌ res=res*(n-i+1)/i 👌
             if(res >= maxK) return maxK;
         }
         return res;
