@@ -1,7 +1,7 @@
 // Leetcode link: https://leetcode.com/problems/next-permutation/description/
 
 // Here we need to find the next permuation lexiographically, of the current sequence. Now, I don't have any clue on how to start
-// Now when next lexiographical permutation would typically mean? just next right?...Yes
+// Now what next lexiographical permutation would typically mean? just next right?...Yes
 // So All the starting index must be same till some particular index? Like for example, suppose you have an english word say "Rat" and 
 // How are we sure that the word "Rax" will come after "Rat" ? 
 // Because most of the character match and we try to base the order between the two based on the characters not matching. 
