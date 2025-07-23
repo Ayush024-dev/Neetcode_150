@@ -72,53 +72,25 @@ class DSU{
 class Solution {
 public:
     string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) {
-        vector<pair<char, int>> index;
-
-        int n=s.length();
-
-        for(int i=0; i<n; i++){
-            index.push_back({s[i], i}); // Storing character with index before sorting
+        int n = s.size();
+        DSU ds(n);
+        string ans(n,'*'); // initialising ans
+        for(auto &it : pairs) ds.unionByRank(it[0], it[1]); // doing union of pairs to form a group
+        unordered_map<int,vector<int>> mp; // To store the group by parent as key
+        for(int i=0;i<n;i++){
+            mp[ds.findParent(i)].push_back(i); 
         }
-
-        sort(index.begin(), index.end());
-
-        DSU ds(n); // DSU declaration.
-
-        for(auto it: pairs){
-            int u=it[0], v=it[1];
-
-            ds.unionByRank(u,v); // consider pairs as edges and union them to form a group
+        for(auto &it : mp){
+            string temp = ""; // Here we are storing the characters in temp which are part of a group
+            for(int ind : it.second) temp += s[ind];
+            sort(temp.begin(), temp.end()); // Now we can rearrange them in any way possible hence rearranging them in their correct sorted order
+            int i=0;
+            for(int ind : it.second) ans[ind] = temp[i++]; // Remember the it.second holds the original index of a group, and by sorting temp, we know the original 
+            // order, so place all the char of the group in this order. Never ever think that there might be other characters in other group who can come to these
+            // indexes because it.second for a it.first contains all the indexes of a group hence no way others are gonna occupy those pos. They will have their own.
         }
-
-        unordered_map<int, set<int>> min_child; // set of each parent
-
-        unordered_map<int,int> parent; // stores the parent of each node
-
-        for(int i=0; i<n; i++){
-
-            int par=ds.findParent(i);
-
-            parent[i]=par;
-            min_child[par].insert(i);
-        }
-
-        vector<char> vec(n);
-
-        for(int i=0; i<n; i++){
-
-            int par=parent[index[i].second];
-
-            auto mini=min_child[par].begin(); // finding out the lowest free index
-
-            vec[*mini]=index[i].first;
-
-            min_child[par].erase(*mini); // filling that index by removing it from set
-        }
-
-        string ans; // You cannot assign size to a string unlike vector
-
-        for(auto it: vec) ans.push_back(it);
-
         return ans;
     }
+    
 };
+// also a suggestion -> do go to the link and look at your own first solution, you will see how bad you were in answering them in quick time and less space. cheers
